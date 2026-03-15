@@ -1,0 +1,55 @@
+#!/bin/bash
+{{ if and (eq .chezmoi.os "darwin") (eq .editor "code") -}}
+set -euo pipefail
+
+echo "Installing VS Code extensions..."
+
+extensions=(
+  # Must
+  "streetsidesoftware.code-spell-checker"
+  "naumovs.color-highlight"
+  "usernamehw.errorlens"
+  "mhutchie.git-graph"
+  "github.copilot"
+  "github.copilot-chat"
+  "eamodio.gitlens"
+  "seatonjiang.gitmoji-vscode"
+  "ms-vscode.hexeditor"
+  "oderwat.indent-rainbow"
+  "PKief.material-icon-theme"
+
+  # Development
+  "ms-toolsai.jupyter"
+  "ms-python.python"
+  "ms-python.vscode-pylance"
+  "bradlc.vscode-tailwindcss"
+  "esbenp.prettier-vscode"
+  "biomejs.biome"
+
+  # Virtual Containers & Remote
+  "ms-vscode-remote.remote-containers"
+  "ms-vscode-remote.remote-ssh"
+  "ms-vscode.remote-explorer"
+  "ms-vscode.live-server"
+
+  # Documentation
+  "hediet.vscode-drawio"
+  "james-yu.latex-workshop"
+  "yzhang.markdown-all-in-one"
+  "shd101wyy.markdown-preview-enhanced"
+  "bierner.markdown-mermaid"
+  "davidanson.vscode-markdownlint"
+  "marp-team.marp-vscode"
+
+  # Others
+  "mitchdenny.ecdc"
+  "wayou.vscode-todo-highlight"
+  "kirozen.wordcounter"
+)
+
+for ext in "${extensions[@]}"; do
+  code --install-extension "$ext" --force 2>/dev/null || echo "Failed to install $ext"
+done
+
+echo "VS Code extensions installed."
+{{ end -}}
