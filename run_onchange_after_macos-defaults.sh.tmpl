@@ -1,0 +1,244 @@
+#!/bin/bash
+{{ if eq .chezmoi.os "darwin" -}}
+set -euo pipefail
+
+echo "Applying macOS defaults..."
+
+# =============================================================================
+# Sudo operations
+# =============================================================================
+
+# Mute startup chime
+sudo nvram StartUpMute=%01
+
+# =============================================================================
+# General
+# =============================================================================
+
+# Dark mode
+defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
+
+# Expand save panel by default
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+# Expand print panel by default
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+# Disable scrolling with modifier keys (e.g. Ctrl + scroll to zoom)
+defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool false
+
+# =============================================================================
+# Screensaver and display
+# =============================================================================
+
+# Set screensaver to start after 5 minutes of inactivity
+defaults write com.apple.screensaver idleTime -int 300
+# Hide user name and password fields on the lock screen
+defaults write com.apple.loginwindow SHOWFULLNAME -bool false
+
+# =============================================================================
+# Keyboard
+# =============================================================================
+
+# Fast key repeat
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+defaults write NSGlobalDomain KeyRepeat -int 2
+
+# Use F1, F2, etc. as standard function keys
+defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
+
+# Disable auto-correct
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Disable auto-capitalize
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+
+# Disable smart quotes
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+
+# Disable smart dashes
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+# Disable automatic period substitution (double-space to period)
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled  -bool false
+
+# Disable Full-width characters for numbers (e.g. １, ２, ３)
+defaults write com.apple.inputmethod.Kotoeri JIMPrefFullWidthNumeralCharactersKey -bool false
+
+# Remap Caps Lock to Left Command
+REMAP_PLIST="$HOME/Library/LaunchAgents/com.kage1020.KeyRemapping.plist"
+cat > "$REMAP_PLIST" << 'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.kage1020.KeyRemapping</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/hidutil</string>
+        <string>property</string>
+        <string>--set</string>
+        <!-- Caps Lock (0x700000039) → Left Command (0x7000000E3) -->
+        <string>{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E3}]}</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+</dict>
+</plist>
+PLIST
+
+# Apply key remapping immediately and load at startup
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E3}]}'
+launchctl load "$REMAP_PLIST" 2>/dev/null || launchctl bootstrap gui/$(id -u) "$REMAP_PLIST" 2>/dev/null || true
+
+# =============================================================================
+# Trackpad
+# =============================================================================
+
+# Tap to click
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+
+# =============================================================================
+# Dock
+# =============================================================================
+
+# Auto-hide Dock
+defaults write com.apple.dock autohide -bool true
+
+# Remove auto-hide animation
+defaults write com.apple.dock autohide-time-modifier -float 0
+
+# Remove auto-hide delay
+defaults write com.apple.dock autohide-delay -float 0
+
+# Don't animate opening applications
+defaults write com.apple.dock launchanim -bool false
+
+# Don't rearrange Spaces based on most recent use
+defaults write com.apple.dock mru-spaces -bool false
+
+# Don't show recent applications in Dock
+defaults write com.apple.dock show-recents -bool false
+
+# Set icon size
+defaults write com.apple.dock tilesize -int 48
+
+# =============================================================================
+# Finder
+# =============================================================================
+
+# Show hidden files
+defaults write com.apple.finder AppleShowAllFiles -bool true
+
+# Show file extensions
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Use list view by default
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+# Keep folders on top when sorting by name
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+# Disable warning when changing file extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# Show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Show status bar
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Don't warn before emptying Trash
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
+
+# Don't create .DS_Store files
+defaults write com.apple.desktopservices DSDontWriteLocalStores -bool true
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+# Don't warn when opening un-trusted files
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+# Set default app for common file types to TextEdit and Preview
+for ext in txt css py ts tsx js jsx c cpp java php svg md vue svelte tex rs go json jsonl xml yml yaml; do
+  defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers \
+    -array-add "{\"LSHandlerContentTag\"=\"$ext\";\"LSHandlerContentTagClass\"=\"public.filename-extension\";\"LSHandlerRoleAll\"=\"com.apple.TextEdit\";}"
+done
+defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers \
+  -array-add '{"LSHandlerContentTag"="heic";"LSHandlerContentTagClass"="public.filename-extension";"LSHandlerRoleAll"="com.apple.Preview";}'
+defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers \
+  -array-add '{"LSHandlerContentTag"="csv";"LSHandlerContentTagClass"="public.filename-extension";"LSHandlerRoleAll"="com.apple.Preview";}'
+
+# =============================================================================
+# Screenshots
+# =============================================================================
+
+# Save screenshots to ~/Downloads
+defaults write com.apple.screencapture location -string ~/Downloads
+
+# Save as PNG
+defaults write com.apple.screencapture type -string "png"
+
+# Disable shadow
+defaults write com.apple.screencapture disable-shadow -bool true
+
+# Don't show thumbnail preview
+defaults write com.apple.screencapture show-thumbnail -bool false
+
+# Don't capture as HDR
+defaults write com.apple.screencapture captureHDR   -bool false
+
+# Add a 5-second delay to screenshots
+defaults write com.apple.screencapture captureDelay 5
+
+# =============================================================================
+# Spotlight
+# =============================================================================
+
+# Remap Spotlight to Cmd+Shift+Space (frees Cmd+Space for Raycast)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 \
+  "<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>32</integer><integer>49</integer><integer>1179648</integer></array><key>type</key><string>standard</string></dict></dict>"
+# Apply the settings immediately
+/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u 2>/dev/null || true
+
+# =============================================================================
+# Safari
+# =============================================================================
+
+# Show full URL in address bar
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
+# Show the Develop menu
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+# Enable Web Inspector for web views
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+# Set default encoding to UTF-8
+defaults write com.apple.Safari WebKitDefaultTextEncodingName -string "utf-8"
+
+# =============================================================================
+# Restart affected apps
+# =============================================================================
+
+for app in "Dock" "Finder" "SystemUIServer"; do
+  killall "${app}" &>/dev/null || true
+done
+
+# =============================================================================
+# File permissions
+# =============================================================================
+
+# Make Claude Code hook scripts executable
+chmod +x "${HOME}/.claude/hooks/"*.sh 2>/dev/null || true
+
+# =============================================================================
+# Software update (at end to avoid restart interrupting setup)
+# =============================================================================
+
+softwareupdate --install --all
+
+echo "macOS defaults applied. Some changes may require a restart."
+{{ end -}}

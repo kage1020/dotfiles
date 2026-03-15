@@ -1,0 +1,75 @@
+# Taps
+tap "homebrew/bundle"
+
+# CLI Tools
+brew "bat"
+brew "bitwarden-cli"
+brew "ccusage"
+brew "eza"
+brew "fzf"
+brew "gh"
+brew "git"
+brew "ollama"
+brew "yt-dlp"
+brew "zoxide"
+
+# Runtime Manager
+{{ if eq .runtime "mise" -}}
+brew "mise"
+{{ else if eq .runtime "asdf" -}}
+brew "asdf"
+{{ else if eq .runtime "proto" -}}
+brew "proto"
+{{- /* vp (Vite+) is installed via curl, not Homebrew */ -}}
+{{ end -}}
+
+# Shell
+brew "starship"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+
+# Cask
+{{ if eq .editor "code" -}}
+cask "visual-studio-code"
+{{ else if eq .editor "cursor" -}}
+cask "cursor"
+{{ else if eq .editor "zed" -}}
+cask "zed"
+{{ end -}}
+
+cask "affinity"
+cask "antigravity"
+cask "azookey"
+cask "bitwarden"
+cask "brave-browser"
+cask "chatgpt"
+cask "claude"
+cask "codex"
+cask "codex-app"
+cask "discord"
+cask "figma"
+cask "firefox"
+cask "ghostty"
+cask "google-chrome"
+cask "libreoffice"
+cask "microsoft-edge"
+cask "microsoft-excel"
+cask "microsoft-powerpoint"
+cask "microsoft-word"
+cask "ngrok"
+cask "notion"
+cask "obsidian"
+cask "ollama-app"
+cask "onedrive"
+cask "orbstack"
+cask "raycast"
+cask "slack"
+cask "vivaldi"
+cask "zoom"
+
+# Fonts
+cask "font-hack-nerd-font"
+cask "font-jetbrains-mono-nerd-font"
+cask "font-noto-mono"
+cask "font-noto-sans-jp"
+cask "font-source-han-code-jp"

@@ -1,0 +1,34 @@
+#!/bin/bash
+INPUT=$(cat)
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+
+if [ -z "$COMMAND" ]; then
+  exit 0
+fi
+
+{{ if ne .jsPkgManager "npm" -}}
+if echo "$COMMAND" | grep -qE '^(npm|npx)\s'; then
+  echo "npm/npx is not allowed. Use {{ .jsPkgManager }} instead." >&2
+  echo "  npm install → {{ .jsPkgManager }}{{ if eq .jsPkgManager "pnpm" }} install{{ else if eq .jsPkgManager "bun" }} install{{ end }}" >&2
+  echo "  npx → {{ if eq .jsPkgManager "pnpm" }}pnpm dlx{{ else if eq .jsPkgManager "bun" }}bunx{{ end }}" >&2
+  exit 2
+fi
+{{ end -}}
+
+{{ if ne .jsPkgManager "yarn" -}}
+if echo "$COMMAND" | grep -qE '^yarn\s'; then
+  echo "yarn is not allowed. Use {{ .jsPkgManager }} instead." >&2
+  exit 2
+fi
+{{ end -}}
+
+{{ if ne .jsPkgManager "bun" -}}
+if echo "$COMMAND" | grep -qE '^(bun|bunx)\s'; then
+  echo "bun/bunx is not allowed. Use {{ .jsPkgManager }} instead." >&2
+  echo "  bun install → {{ .jsPkgManager }} install" >&2
+  echo "  bunx → {{ if eq .jsPkgManager "pnpm" }}pnpm dlx{{ else if eq .jsPkgManager "npm" }}npx{{ end }}" >&2
+  exit 2
+fi
+{{ end -}}
+
+exit 0

@@ -1,0 +1,12 @@
+{{- $name := promptStringOnce . "name" "Your name" -}}
+{{- $email := promptStringOnce . "email" "Your email" -}}
+{{- $editor := promptStringOnce . "editor" "Editor: code/cursor/zed/vim/nvim" -}}
+{{- $runtime := promptStringOnce . "runtime" "Runtime manager: mise/asdf/proto/vp" -}}
+{{- $jsPkgManager := promptStringOnce . "jsPkgManager" "JS package manager: npm/pnpm/bun" -}}
+
+[data]
+  name = {{ $name | quote }}
+  email = {{ $email | quote }}
+  editor = {{ $editor | quote }}
+  runtime = {{ $runtime | quote }}
+  jsPkgManager = {{ $jsPkgManager | quote }}

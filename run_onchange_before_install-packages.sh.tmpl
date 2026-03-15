@@ -1,0 +1,23 @@
+#!/bin/bash
+# Brewfile hash: {{ include "Brewfile.tmpl" | sha256sum }}
+{{ if eq .chezmoi.os "darwin" -}}
+set -euo pipefail
+
+# Ensure Homebrew is in PATH
+if [[ "$(uname -m)" == "arm64" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# Prevent runtimes from being installed via Homebrew (use runtime manager instead)
+export HOMEBREW_FORBIDDEN_FORMULAE="node bun deno python python@3.11 python@3.12 python@3.13 go rust"
+
+echo "Installing packages via Homebrew..."
+brew bundle --file="{{ .chezmoi.sourceDir }}/Brewfile" --no-lock
+
+{{ if eq .runtime "vp" -}}
+echo "Installing Vite+..."
+curl -fsSL https://vite.plus | bash
+{{ end -}}
+
+echo "Package installation complete."
+{{ end -}}

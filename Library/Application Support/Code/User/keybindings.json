@@ -1,0 +1,39 @@
+[
+  {
+    "key": "ctrl+oem_plus",
+    "command": "-workbench.action.zoomIn"
+  },
+  {
+    "key": "ctrl+oem_minus",
+    "command": "-workbench.action.zoomOut"
+  },
+  {
+    "key": "ctrl+shift+m",
+    "command": "editor.emmet.action.evaluateMathExpression"
+  },
+  {
+    "key": "alt+right",
+    "command": "editor.action.moveCarretRightAction"
+  },
+  {
+    "key": "alt+left",
+    "command": "editor.action.moveCarretLeftAction"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "-notebook.centerActiveCell",
+    "when": "notebookEditorFocused"
+  },
+  {
+    "key": "ctrl+alt",
+    "command": "inlayHints.startReadingLineWithHint"
+  },
+  {
+    "key": "ctrl+oem_plus",
+    "command": "workbench.action.terminal.fontZoomIn"
+  },
+  {
+    "key": "ctrl+oem_minus",
+    "command": "workbench.action.terminal.fontZoomOut"
+  }
+]

@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
+
+{{ if eq .runtime "mise" -}}
+RUN curl https://mise.run | sh
+ENV PATH="/root/.local/bin:${PATH}"
+{{ else if eq .runtime "asdf" -}}
+RUN apt-get update && apt-get install -y curl git jq && \
+    ASDF_VERSION=$(curl -s https://api.github.com/repos/asdf-vm/asdf/releases/latest | jq -r .tag_name) && \
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch "${ASDF_VERSION}" && \
+    echo '. "$HOME/.asdf/asdf.sh"' >> ~/.bashrc
+ENV PATH="/root/.asdf/shims:/root/.asdf/bin:${PATH}"
+{{ else if eq .runtime "proto" -}}
+RUN curl -fsSL https://moonrepo.dev/install/proto.sh | bash
+ENV PATH="/root/.proto/shims:/root/.proto/bin:${PATH}"
+{{ else if eq .runtime "vp" -}}
+RUN curl -fsSL https://vite.plus | bash
+ENV PATH="/root/.vite-plus/bin:${PATH}"
+{{ end -}}

@@ -1,0 +1,115 @@
+# Create a new project with devcontainer template
+# Usage: mkpj <project-name-or-github-url>
+mkpj() {
+  local input="${1:?Usage: mkpj <project-name or github-url>}"
+  local name dir
+
+  if [[ "${input}" =~ ^https?:// ]] || [[ "${input}" =~ ^git@ ]]; then
+    # Extract repo name from URL (strip .git suffix if present)
+    name="$(basename "${input}" .git)"
+    dir="${HOME}/projects/${name}"
+
+    if [[ -d "${dir}" ]]; then
+      echo "Error: ${dir} already exists"
+      return 1
+    fi
+
+    git clone "${input}" "${dir}" || return 1
+    cd "${dir}" || return 1
+  else
+    name="${input}"
+    dir="${HOME}/projects/${name}"
+
+    if [[ -d "${dir}" ]]; then
+      echo "Error: ${dir} already exists"
+      return 1
+    fi
+
+    mkdir -p "${dir}"
+    cd "${dir}" || return 1
+    git init
+  fi
+
+  # Copy devcontainer template if not already present
+  if [[ ! -d ".devcontainer" ]]; then
+    cp -r "$(chezmoi source-path)/devcontainer/base/.devcontainer" .
+  fi
+
+  echo "Project created at ${dir}"
+{{ if eq .editor "code" -}}
+  code .
+{{ else if eq .editor "cursor" -}}
+  cursor .
+{{ else if eq .editor "zed" -}}
+  zed .
+{{ end -}}
+}
+
+# Audit brew packages for unwanted dependencies
+brew-audit() {
+  echo "Checking for node/python indirect dependencies..."
+  local packages
+  packages=$(brew list --formula)
+  for pkg in ${packages}; do
+    local deps
+    deps=$(brew deps "${pkg}" 2>/dev/null)
+    if echo "${deps}" | grep -qE '^(node|python)'; then
+      echo "WARNING: ${pkg} depends on node/python: $(echo "${deps}" | grep -E '^(node|python)' | tr '\n' ' ')"
+    fi
+  done
+  echo "Audit complete."
+}
+
+# Edit a dotfile, preview diff, apply, and optionally commit & push
+dotfiles-edit() {
+  local target="${1:?Usage: dotfiles-edit <target-file> (e.g. ~/.zshrc)}"
+
+  chezmoi edit "${target}" || return 1
+
+  echo "=== Diff ==="
+  chezmoi diff
+
+  printf "Apply changes? [y/N] "
+  read -r answer
+  if [[ "${answer}" =~ ^[Yy]$ ]]; then
+    chezmoi apply
+    echo "Applied."
+
+    printf "Commit and push? [y/N] "
+    read -r answer2
+    if [[ "${answer2}" =~ ^[Yy]$ ]]; then
+      local source_dir
+      source_dir="$(chezmoi source-path)"
+      git -C "${source_dir}" add -A
+      git -C "${source_dir}" commit -m "update $(basename "${target}")"
+      git -C "${source_dir}" push
+      echo "Pushed."
+    fi
+  fi
+}
+
+# Re-add a dotfile edited directly in $HOME, then optionally commit & push
+dotfiles-readd() {
+  local target="${1:?Usage: dotfiles-readd <target-file> (e.g. ~/.zshrc)}"
+
+  echo "=== Diff (before re-add) ==="
+  chezmoi diff "${target}"
+
+  printf "Re-add to chezmoi? [y/N] "
+  read -r answer
+  if [[ "${answer}" =~ ^[Yy]$ ]]; then
+    chezmoi re-add "${target}"
+    echo "Re-added."
+
+    printf "Commit and push? [y/N] "
+    read -r answer2
+    if [[ "${answer2}" =~ ^[Yy]$ ]]; then
+      local source_dir
+      source_dir="$(chezmoi source-path)"
+      git -C "${source_dir}" add -A
+      git -C "${source_dir}" commit -m "update $(basename "${target}")"
+      git -C "${source_dir}" push
+      echo "Pushed."
+    fi
+  fi
+}

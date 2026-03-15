@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# Personal notes (project-local scratch space that won't be committed)
+kage1020/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+

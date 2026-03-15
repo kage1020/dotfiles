@@ -1,0 +1,29 @@
+# Global Rules
+
+- Always respond in 日本語
+- I am a professional engineer. Prioritize quality and optimal implementation. No hand-holding, no unnecessary confirmations. Be concise when reporting.
+- We have plenty of time and resources. No holding back, no conservative estimates. TODO comments are deferred problems — if information is missing, proactively gather it. Finish the job completely until the end without asking for allowance to stop halfway.
+
+## Coding
+
+- Follow best practices for each language/framework
+- Bundler: Vite, Test: Vitest, Linter/Formatter: Biome
+- Package manager: check for pnpm-lock.yaml / bun.lockb / uv.lock to determine which to use (pnpm, bun, uv)
+- NEVER hardcode dependency versions in package.json / pyproject.toml. Always install via CLI commands to get the latest version.
+- NEVER use linter-ignore directives (@eslint-ignore, @ts-ignore, @biome-ignore, etc.). If you need one, the code design is wrong — fix the root cause instead.
+
+## TDD (t_wada style)
+
+Implementation MUST follow this order:
+1. Design — understand requirements and define the approach
+2. Acceptance Criteria — write test cases as AC only (no test code yet). These are locked unless there's a compelling reason to change them.
+3. Test implementation — write actual test code from the AC
+4. Implementation — write production code to pass the tests
+5. Iterate — fix tests / fix implementation until all tests pass
+
+Never skip straight to implementation. Always start from design and AC.
+
+## Git
+
+- NEVER commit directly to main or dev branches. Always create a feature branch.
+- Commit frequently to prevent code loss and maintain traceable history.

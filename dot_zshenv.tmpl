@@ -1,0 +1,35 @@
+{{ if eq .chezmoi.os "darwin" -}}
+# XDG Base Directory
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state"
+export XDG_CACHE_HOME="${HOME}/.cache"
+
+# Editor
+{{ if eq .editor "code" -}}
+export EDITOR="code --wait"
+{{ else if eq .editor "cursor" -}}
+export EDITOR="cursor --wait"
+{{ else if eq .editor "zed" -}}
+export EDITOR="zed --wait"
+{{ else if eq .editor "vim" -}}
+export EDITOR="vim"
+{{ else if eq .editor "nvim" -}}
+export EDITOR="nvim"
+{{ end -}}
+export VISUAL="${EDITOR}"
+
+# Language
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
+# Homebrew
+if [[ "$(uname -m)" == "arm64" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+else
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# Prevent runtimes from being installed via Homebrew (use runtime manager instead)
+export HOMEBREW_FORBIDDEN_FORMULAE="node bun deno python python@3.11 python@3.12 python@3.13 go rust"
+{{ end -}}

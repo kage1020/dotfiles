@@ -1,0 +1,61 @@
+{{ if eq .chezmoi.os "darwin" -}}
+# =============================================================================
+# History
+# =============================================================================
+HISTFILE="${HOME}/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+
+# =============================================================================
+# Completion
+# =============================================================================
+autoload -Uz compinit
+compinit
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' menu select
+
+# =============================================================================
+# Runtime Manager
+# =============================================================================
+{{ if eq .runtime "mise" -}}
+eval "$(mise activate zsh)"
+{{ else if eq .runtime "asdf" -}}
+source "$(brew --prefix asdf)/libexec/asdf.sh"
+{{ else if eq .runtime "proto" -}}
+eval "$(proto activate zsh)"
+{{ else if eq .runtime "vp" -}}
+eval "$(vp env print)"
+{{ end -}}
+
+# =============================================================================
+# fzf
+# =============================================================================
+source <(fzf --zsh)
+
+# =============================================================================
+# zoxide (smart cd)
+# =============================================================================
+eval "$(zoxide init zsh)"
+
+# =============================================================================
+# Starship prompt
+# =============================================================================
+eval "$(starship init zsh)"
+
+# =============================================================================
+# Plugins
+# =============================================================================
+source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+# =============================================================================
+# Shell helpers
+# =============================================================================
+source "${HOME}/shell/aliases.sh"
+source "${HOME}/shell/functions.sh"
+{{ end -}}

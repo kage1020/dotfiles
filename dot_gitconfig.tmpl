@@ -1,0 +1,85 @@
+[user]
+  name = {{ .name | quote }}
+  email = {{ .email | quote }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+[credentials]
+  helper = osxkeychain
+{{ end -}}
+
+[init]
+  defaultBranch = main
+
+[core]
+{{ if eq .editor "code" -}}
+  editor = code --wait
+{{ else if eq .editor "cursor" -}}
+  editor = cursor --wait
+{{ else if eq .editor "zed" -}}
+  editor = zed --wait
+{{ else if eq .editor "vim" -}}
+  editor = vim
+{{ else if eq .editor "nvim" -}}
+  editor = nvim
+{{ end -}}
+  autocrlf = input
+  excludesfile = ~/.gitignore
+  ignorecase = false
+
+[color]
+  ui = auto
+
+[column]
+  ui = auto
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = version:refname
+
+[pull]
+  rebase = true
+
+[push]
+  default = simple
+  autoSetupRemote = true
+  followTags = true
+
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+[commit]
+  verbose = true
+
+[rebase]
+  autoStash = true
+  autoSquash = true
+  updateRefs = true
+
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+
+[merge]
+  conflictstyle = zdiff3
+
+[rerere]
+  enabled = true
+  autoupdate = true
+
+[help]
+  autocorrect = prompt
+
+[alias]
+  st = status
+  co = checkout
+  br = branch
+  ci = commit
+  unstage = reset HEAD --
+  last = log -1 HEAD
+  graph = log --graph --oneline --all --decorate

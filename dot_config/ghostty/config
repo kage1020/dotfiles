@@ -1,0 +1,22 @@
+# Font
+font-family = Source Han Code JP
+font-size = 14
+
+# Window
+window-padding-x = 8
+window-padding-y = 4
+window-decoration = auto
+
+# Theme
+theme = catppuccin-mocha
+
+# Cursor
+cursor-style = bar
+cursor-style-blink = true
+
+# Shell
+shell-integration = zsh
+
+# Misc
+copy-on-select = clipboard
+confirm-close-surface = false

@@ -1,0 +1,20 @@
+README.md
+LICENSE
+
+{{ if ne .chezmoi.os "darwin" }}
+Library/
+run_onchange_after_macos-defaults.sh.tmpl
+Brewfile.tmpl
+{{ end }}
+
+{{ if ne .editor "code" }}
+Library/Application Support/Code/
+{{ end }}
+
+{{ if ne .runtime "mise" }}
+dot_config/mise/
+{{ end }}
+
+{{ if ne .runtime "asdf" }}
+dot_default-npm-packages.tmpl
+{{ end }}

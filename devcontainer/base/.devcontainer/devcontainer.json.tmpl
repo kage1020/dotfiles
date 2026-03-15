@@ -1,0 +1,24 @@
+{
+  "name": "Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["GitHub.copilot"]
+    }
+  },
+{{ if eq .runtime "mise" -}}
+  "postCreateCommand": "mise install"
+{{ else if eq .runtime "asdf" -}}
+  "postCreateCommand": "asdf install"
+{{ else if eq .runtime "proto" -}}
+  "postCreateCommand": "proto use"
+{{ else if eq .runtime "vp" -}}
+  "postCreateCommand": "vp env install"
+{{ end -}}
+}
