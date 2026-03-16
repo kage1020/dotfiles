@@ -1,0 +1,13 @@
+Host *
+  ForwardAgent yes
+  ForwardX11 yes
+  ForwardX11Trusted yes
+
+Host GitHub
+  HostName github.com
+  IdentityFile ~/.ssh/id_ed25519_git
+  User git
+{{ if eq .chezmoi.os "darwin" -}}
+  AddKeysToAgent yes
+  UseKeychain yes
+{{ end -}}

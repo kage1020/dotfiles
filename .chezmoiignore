@@ -5,7 +5,10 @@ LICENSE
 Library/
 run_onchange_after_macos-defaults.sh.tmpl
 Brewfile.tmpl
+private_dot_ssh/
 {{ end }}
+
+GUI_SETTINGS.md
 
 {{ if ne .editor "code" }}
 Library/Application Support/Code/
@@ -13,6 +16,10 @@ Library/Application Support/Code/
 
 {{ if ne .runtime "mise" }}
 dot_config/mise/
+{{ end }}
+
+{{ if ne .editor "zed" }}
+dot_config/zed/
 {{ end }}
 
 {{ if ne .runtime "asdf" }}
