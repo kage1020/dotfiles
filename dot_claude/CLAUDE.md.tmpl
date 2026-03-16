@@ -12,6 +12,16 @@
 - NEVER hardcode dependency versions in package.json / pyproject.toml. Always install via CLI commands to get the latest version.
 - NEVER use linter-ignore directives (@eslint-ignore, @ts-ignore, @biome-ignore, etc.). If you need one, the code design is wrong — fix the root cause instead.
 
+After implementation, run the linter and fix all issues until there are zero warnings/errors. Do not ignore any linter warnings/errors.
+Then, write an implementation report to `kage1020/report-YYYY-MM-DD-NN.md` with the following format:
+```
+# Implementation Report
+- Date: YYYY-MM-DD
+- Summary: A brief summary of the implementation
+- Details: A detailed explanation of the implementation, including design decisions, challenges faced, and how they were overcome.
+- Next Steps: Any follow-up work or improvements that can be made in the future.
+```
+
 ## TDD (t_wada style)
 
 Implementation MUST follow this order:
