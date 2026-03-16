@@ -82,7 +82,6 @@
         - Gmail: ショートカット `gmail`, URL `https://mail.google.com/mail/u/0/#inbox`
         - Google Map: ショートカット `gmap`, URL `https://www.google.com/maps`
         - Google Drive: ショートカット `gdrive`, URL `https://drive.google.com/drive/u/0/home`
-- ブックマーク: `bookmarks_2025_03_19.html` をインポート
 
 ## Raycast
 
@@ -109,7 +108,6 @@
 1. リポジトリ `obsidian-private` を clone
 2. 「Open Folder as Vault」で vault を作成
 3. `.gitignore` に `.obsidian` を追加してコミット
-4. `git config --global credential.helper osxkeychain`
 - オプション
     - エディタ
         - デフォルト編集モード：ソースモード
@@ -134,22 +132,22 @@
     - トーク
         - 送信方法：Command + Enter
 
-## プリンタドライバ
+## Zed
 
-「設定」＞「プリンタとスキャナ」＞「プリンタ、スキャナまたはファクスを追加」
+Zed で再現できない VS Code 設定:
 
-インストール後再起動。
-
-- [Fujifilm](https://www.fujifilm.com/fb/download/apeosport/5_c7780/mac12/fb_prt)
-- [OKI](https://www.oki.com/jp/printing/support/drivers-and-utilities/?id=FZ8001-8178&tab=drivers-and-utilities&productCategory=color&sku=C824DN&os=ab74&lang=ac1)
+- ミニマップ（機能なし）
+- コピー時シンタックスハイライト無効化（`editor.copyWithSyntaxHighlighting: false` 相当の設定なし）
+- Unicode ハイライト許可文字（機能なし）
+- ファイルネスティング（`explorer.fileNesting` 相当の機能なし）
+- タブのカスタムラベル（`workbench.editor.customLabels` 相当の機能なし）
+- Jupyter ノートブック（未サポート）
+- Git Graph / Draw.io / Marp / Hex Editor（同等拡張なし）
+- Code Spell Checker（同等拡張なし、typos-lsp で部分代替可能）
+- Gitmoji / ECDC / Word Counter（同等拡張なし）
 
 ## 手動 DMG インストール
 
 - Comet: `/Users/kage1020/Documents/comet_latest.dmg`
 - Atlas: `/Users/kage1020/Documents/ChatGPT_Atlas.dmg`
 - Nani!?: `/Users/kage1020/Documents/nani-mac-latest.dmg`
-- Cisco Security Client: `/Users/kage1020/Documents/cisco-secure-client-macos-5.1.7.80-predeploy-k9.dmg`
-
-## e-Tax
-
-https://www.e-tax.nta.go.jp/todokedesho/kaishi_confirm.htm

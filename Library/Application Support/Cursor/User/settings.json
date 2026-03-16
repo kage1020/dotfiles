@@ -1,9 +1,5 @@
 {
   // Editor Settings
-  "chat.agent.maxRequests": 100,
-  "chat.mcp.gallery.enabled": true,
-  "chat.viewSessions.enabled": false,
-
   "diffEditor.ignoreTrimWhitespace": false,
 
   "editor.accessibilitySupport": "off",
@@ -114,7 +110,6 @@
     "*.pdf": "pdf.preview"
   },
   "workbench.iconTheme": "material-icon-theme",
-  "workbench.secondarySideBar.defaultVisibility": "hidden",
   "workbench.startupEditor": "none",
 
   // Language Settings

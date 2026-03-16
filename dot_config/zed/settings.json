@@ -1,0 +1,132 @@
+{
+  // Editor
+  "buffer_font_family": "Source Han Code JP N",
+  "buffer_font_size": 15,
+  "format_on_save": "on",
+  "formatter": "language_server",
+  "soft_wrap": "editor_width",
+  "preferred_line_length": 200,
+  "linked_edits": true,
+  "show_whitespaces": "boundary",
+  "current_line_highlight": "all",
+  "ensure_final_newline_on_save": true,
+  "remove_trailing_whitespace_on_save": true,
+  "show_inline_completions": true,
+  "tab_size": 2,
+
+  // File scan exclusions
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/__pycache__",
+    "**/.ruff_cache",
+    "**/*-env.d.ts"
+  ],
+
+  // Terminal
+  "terminal": {
+    "shell": {
+      "program": "zsh"
+    },
+    "copy_on_select": true
+  },
+
+  // Git
+  "git": {
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+
+  // Theme overrides
+  "theme_overrides": {
+    "editor.line_highlight.background": "#404040A0",
+    "editor.line_number": "#606060A0"
+  },
+
+  // LSP
+  "lsp": {
+    "biome": {
+      "settings": {
+        "suggest_installing_globally": false
+      }
+    },
+    "tailwindcss-language-server": {
+      "settings": {
+        "classFunctions": ["clsx", "cva", "cx", "tv", "tw", "twMerge"]
+      }
+    }
+  },
+
+  // Languages
+  "languages": {
+    "CSS": {
+      "tab_size": 2
+    },
+    "HTML": {
+      "tab_size": 2
+    },
+    "Java": {
+      "tab_size": 4
+    },
+    "JavaScript": {
+      "tab_size": 2
+    },
+    "JSX": {
+      "tab_size": 2
+    },
+    "JSON": {
+      "tab_size": 2,
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
+        }
+      }
+    },
+    "JSONC": {
+      "tab_size": 2,
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
+        }
+      }
+    },
+    "Markdown": {
+      "tab_size": 2
+    },
+    "MDX": {
+      "tab_size": 2
+    },
+    "Python": {
+      "tab_size": 4
+    },
+    "TypeScript": {
+      "tab_size": 2
+    },
+    "TSX": {
+      "tab_size": 2
+    }
+  },
+
+  // Auto-install extensions
+  "auto_install_extensions": {
+    "biome": true,
+    "prettier": true,
+    "tailwind-css": true,
+    "indent-rainbow": true,
+    "git-firefly": true,
+    "latex": true,
+    "mermaid": true,
+    "markdownlint": true,
+    "html": true,
+    "toml": true,
+    "docker-compose": true,
+    "ruff": true,
+    "emmet": true
+  }
+}

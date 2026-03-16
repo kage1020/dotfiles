@@ -1,0 +1,17 @@
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-y": "editor::Redo",
+      "alt-right": "editor::MoveToNextSubwordEnd",
+      "alt-left": "editor::MoveToPreviousSubwordStart"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "cmd-=": "terminal::IncreaseFontSize",
+      "cmd--": "terminal::DecreaseFontSize"
+    }
+  }
+]

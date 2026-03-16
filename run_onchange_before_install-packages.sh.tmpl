@@ -9,10 +9,14 @@ if [[ "$(uname -m)" == "arm64" ]]; then
 fi
 
 # Prevent runtimes from being installed via Homebrew (use runtime manager instead)
-export HOMEBREW_FORBIDDEN_FORMULAE="node bun deno python python@3.11 python@3.12 python@3.13 go rust"
+export HOMEBREW_FORBIDDEN_FORMULAE="node bun deno python python@3.11 python@3.12 python@3.13 python@3.14 go rust"
 
 echo "Installing packages via Homebrew..."
 brew bundle --file="{{ .chezmoi.sourceDir }}/Brewfile" --no-lock
+
+{{ if eq .jsPkgManager "bun" -}}
+curl -fsSL https://bun.sh/install | bash
+{{ end -}}
 
 {{ if eq .runtime "vp" -}}
 echo "Installing Vite+..."

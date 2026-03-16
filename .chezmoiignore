@@ -18,6 +18,10 @@ Library/Application Support/Code/
 dot_config/mise/
 {{ end }}
 
+{{ if ne .editor "zed" }}
+dot_config/zed/
+{{ end }}
+
 {{ if ne .runtime "asdf" }}
 dot_default-npm-packages.tmpl
 {{ end }}

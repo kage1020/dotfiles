@@ -7,9 +7,11 @@ brew "bitwarden-cli"
 brew "ccusage"
 brew "eza"
 brew "fzf"
+brew "gemini-cli"
 brew "gh"
 brew "git"
 brew "ollama"
+brew "tree"
 brew "yt-dlp"
 brew "zoxide"
 
@@ -35,6 +37,8 @@ cask "visual-studio-code"
 cask "cursor"
 {{ else if eq .editor "zed" -}}
 cask "zed"
+{{ else if eq .editor "kiro" -}}
+cask "kiro"
 {{ end -}}
 
 cask "affinity"
@@ -69,8 +73,8 @@ cask "zoom"
 
 # Fonts
 cask "font-hack-nerd-font"
+cask "font-hackgen"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-noto-mono"
 cask "font-noto-sans-jp"
 cask "font-source-han-code-jp"
-cask "font-hackgen"
