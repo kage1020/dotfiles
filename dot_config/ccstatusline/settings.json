@@ -8,7 +8,7 @@
         "color": "cyan"
       },
       {
-        "id": "4",
+        "id": "2",
         "type": "separator"
       },
       {
@@ -17,37 +17,30 @@
         "color": "brightBlack"
       },
       {
-        "id": "773cdb6b-bc80-4dfd-838c-195d541f8a90",
+        "id": "4",
         "type": "separator"
       },
       {
-        "id": "7",
-        "type": "context-percentage-usable",
-        "color": "yellow"
-      },
-      {
-        "id": "2",
-        "type": "separator"
-      },
-      {
-        "id": "09e770bd-c9cc-4e9f-8e7c-c3912e2f0385",
-        "type": "block-timer"
+        "id": "5",
+        "type": "block-timer",
+        "color": "magenta"
       },
       {
         "id": "6",
         "type": "separator"
       },
       {
-        "id": "521daf56-3b6b-4496-a3ad-b71e4ad0da5c",
-        "type": "session-usage"
+        "id": "7",
+        "type": "session-usage",
+        "color": "yellow"
       },
       {
-        "id": "56027a7b-0f26-4cdb-b416-43e2e0b5733e",
+        "id": "1d3f3402-4743-46e1-ba4f-93042a33a930",
         "type": "separator"
       },
       {
-        "id": "a2c3e723-1f8c-4d7d-a89d-6593664e237a",
-        "type": "reset-timer"
+        "id": "1a820e0b-32a8-48d7-8bab-d76d025550bc",
+        "type": "weekly-usage"
       }
     ],
     [],
