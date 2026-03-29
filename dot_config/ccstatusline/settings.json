@@ -21,15 +21,6 @@
         "type": "separator"
       },
       {
-        "id": "5",
-        "type": "block-timer",
-        "color": "magenta"
-      },
-      {
-        "id": "6",
-        "type": "separator"
-      },
-      {
         "id": "7",
         "type": "session-usage",
         "color": "yellow"
@@ -43,7 +34,20 @@
         "type": "weekly-usage"
       }
     ],
-    [],
+    [
+      {
+        "id": "9015b060-934d-4225-a15a-d375db0d4b6a",
+        "type": "reset-timer"
+      },
+      {
+        "id": "7e309950-2aad-4804-a2a0-14cf1d9356d6",
+        "type": "separator"
+      },
+      {
+        "id": "1b45df10-47dd-4bf7-92f5-3de894958cec",
+        "type": "weekly-reset-timer"
+      }
+    ],
     []
   ],
   "flexMode": "full-minus-40",
