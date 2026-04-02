@@ -146,8 +146,3 @@ Zed で再現できない VS Code 設定:
 - Code Spell Checker（同等拡張なし、typos-lsp で部分代替可能）
 - Gitmoji / ECDC / Word Counter（同等拡張なし）
 
-## 手動 DMG インストール
-
-- Comet: `/Users/kage1020/Documents/comet_latest.dmg`
-- Atlas: `/Users/kage1020/Documents/ChatGPT_Atlas.dmg`
-- Nani!?: `/Users/kage1020/Documents/nani-mac-latest.dmg`
