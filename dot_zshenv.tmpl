@@ -30,6 +30,9 @@ else
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
+# Disable auto-update when running brew commands
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 # Prevent runtimes from being installed via Homebrew (use runtime manager instead)
 export HOMEBREW_FORBIDDEN_FORMULAE="node bun deno python python@3.11 python@3.12 python@3.13 go rust"
 {{ end -}}
