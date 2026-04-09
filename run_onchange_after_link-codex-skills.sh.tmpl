@@ -1,0 +1,46 @@
+#!/bin/bash
+# Symlink compatible Claude skills to Codex skills directory
+# Skills that are generic reference/documentation work with both Claude Code and Codex CLI
+
+CLAUDE_SKILLS="{{ .chezmoi.homeDir }}/.claude/skills"
+CODEX_SKILLS="{{ .chezmoi.homeDir }}/.codex/skills"
+
+mkdir -p "$CODEX_SKILLS"
+
+# Compatible skills (generic reference/docs that work with any AI agent)
+# Excluded: daily-report (depends on Claude-specific logging infrastructure)
+SHARED_SKILLS=(
+  agent-browser
+  agents-sdk
+  biome-developer
+  cloudflare
+  diff-report
+  find-skills
+  frontend-design
+  next-best-practices
+  pdf
+  philosophy-review
+  playwright-cli
+  pptx
+  prompt-review
+  remotion-best-practices
+  sandbox-sdk
+  vercel-composition-patterns
+  vercel-react-best-practices
+  web-design-guidelines
+  web-perf
+  workers-best-practices
+  wrangler
+  xlsx
+)
+
+for skill in "${SHARED_SKILLS[@]}"; do
+  src="$CLAUDE_SKILLS/$skill"
+  dest="$CODEX_SKILLS/$skill"
+  if [ -d "$src" ] && [ ! -e "$dest" ]; then
+    ln -sf "$src" "$dest"
+    echo "Linked: $skill"
+  fi
+done
+
+echo "Codex skills linked successfully."

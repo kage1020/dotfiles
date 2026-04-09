@@ -1,0 +1,81 @@
+# OpenAI Codex CLI configuration
+# Equivalent of ~/.claude/settings.json + ~/.claude/CLAUDE.md
+
+# --- Model ---
+model = "o4-mini"
+model_reasoning_effort = "high"
+personality = "pragmatic"
+
+# --- Approval & Sandbox ---
+# "on-request" = Claude Code's "plan" mode equivalent
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+# --- Global Instructions (equivalent of CLAUDE.md) ---
+instructions = """
+# Global Rules
+
+- Always respond in 日本語
+- I am a professional engineer. Prioritize quality and optimal implementation. No hand-holding, no unnecessary confirmations. Be concise when reporting.
+- We have plenty of time and resources. No holding back, no conservative estimates. TODO comments are deferred problems — if information is missing, proactively gather it. Finish the job completely until the end without asking for allowance to stop halfway.
+
+## Coding
+
+- Follow best practices for each language/framework
+- Bundler: Vite, Test: Vitest, Linter/Formatter: Biome
+- Package manager: check for pnpm-lock.yaml / bun.lockb / uv.lock to determine which to use (pnpm, bun, uv)
+- NEVER hardcode dependency versions in package.json / pyproject.toml. Always install via CLI commands to get the latest version.
+- NEVER use linter-ignore directives (@eslint-ignore, @ts-ignore, @biome-ignore, etc.). If you need one, the code design is wrong — fix the root cause instead.
+{{ if ne .jsPkgManager "npm" -}}
+- NEVER use npm/npx. Use {{ .jsPkgManager }} instead.
+{{ end -}}
+{{ if ne .jsPkgManager "yarn" -}}
+- NEVER use yarn. Use {{ .jsPkgManager }} instead.
+{{ end -}}
+{{ if ne .jsPkgManager "bun" -}}
+- NEVER use bun/bunx. Use {{ .jsPkgManager }} instead.
+{{ end -}}
+
+After implementation, run the linter and fix all issues until there are zero warnings/errors. Do not ignore any linter warnings/errors.
+Then, write an implementation report to `kage1020/report-YYYY-MM-DD-NN.md` with the following format:
+
+# Implementation Report
+- Date: YYYY-MM-DD
+- Summary: A brief summary of the implementation
+- Details: A detailed explanation of the implementation, including design decisions, challenges faced, and how they were overcome.
+- Next Steps: Any follow-up work or improvements that can be made in the future.
+
+## TDD (t_wada style)
+
+Implementation MUST follow this order:
+1. Design — understand requirements and define the approach
+2. Acceptance Criteria — write test cases as AC only (no test code yet). These are locked unless there's a compelling reason to change them.
+3. Test implementation — write actual test code from the AC
+4. Implementation — write production code to pass the tests
+5. Iterate — fix tests / fix implementation until all tests pass
+
+Never skip straight to implementation. Always start from design and AC.
+
+## Git
+
+- NEVER commit directly to main or dev branches. Always create a feature branch.
+- Commit frequently to prevent code loss and maintain traceable history.
+"""
+
+# --- Notification ---
+notify = ["bash", "{{ .chezmoi.homeDir }}/.codex/hooks/notify.sh"]
+
+# --- MCP Servers ---
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@latest"]
+
+# --- Features ---
+[features]
+skills = true
+web_search = true
+
+# --- Profiles ---
+[profiles.fast]
+model = "o4-mini"
+model_reasoning_effort = "low"

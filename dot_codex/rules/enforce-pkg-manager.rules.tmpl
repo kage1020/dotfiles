@@ -1,0 +1,17 @@
+# Enforce JS package manager policy
+# Equivalent of Claude Code's enforce-pkg-manager.sh hook
+# Selected package manager: {{ .jsPkgManager }}
+
+{{ if ne .jsPkgManager "npm" -}}
+prefix_rule("npm ", "forbidden", "npm is not allowed. Use {{ .jsPkgManager }} instead.")
+prefix_rule("npx ", "forbidden", "npx is not allowed. Use {{ if eq .jsPkgManager "pnpm" }}pnpm dlx{{ else if eq .jsPkgManager "bun" }}bunx{{ end }} instead.")
+{{ end -}}
+
+{{ if ne .jsPkgManager "yarn" -}}
+prefix_rule("yarn ", "forbidden", "yarn is not allowed. Use {{ .jsPkgManager }} instead.")
+{{ end -}}
+
+{{ if ne .jsPkgManager "bun" -}}
+prefix_rule("bun ", "forbidden", "bun is not allowed. Use {{ .jsPkgManager }} instead.")
+prefix_rule("bunx ", "forbidden", "bunx is not allowed. Use {{ if eq .jsPkgManager "pnpm" }}pnpm dlx{{ else if eq .jsPkgManager "npm" }}npx{{ end }} instead.")
+{{ end -}}
