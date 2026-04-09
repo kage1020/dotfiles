@@ -1,5 +1,5 @@
 #!/bin/bash
-# PostToolUse hook: log tool usage event
+# PostToolUse hook: log tool usage event with detail
 INPUT=$(cat)
 SESSION_ID=$(printf '%s' "$INPUT" | jq -r '.session_id // empty')
 TOOL_NAME=$(printf '%s' "$INPUT" | jq -r '.tool_name // empty')
@@ -21,7 +21,42 @@ PROJECT_SLUG="${PROJECT_SLUG:-_unknown}"
 LOG_DIR="$HOME/.claude/logs/$PROJECT_SLUG"
 mkdir -p "$LOG_DIR"
 
-printf '{"type":"tool_use","session_id":"%s","timestamp":"%s","tool_name":"%s"}\n' \
-  "$SESSION_ID" "$TIMESTAMP" "$TOOL_NAME" >> "$LOG_DIR/$TODAY.jsonl"
+# Extract tool-specific detail from tool_input
+DETAIL=""
+case "$TOOL_NAME" in
+  Bash)
+    DETAIL=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' | head -c 500)
+    ;;
+  Agent)
+    DETAIL=$(printf '%s' "$INPUT" | jq -r '(.tool_input.subagent_type // "general") + ": " + (.tool_input.description // empty)' | head -c 500)
+    ;;
+  Read|Write|Edit)
+    DETAIL=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // empty')
+    ;;
+  Grep)
+    DETAIL=$(printf '%s' "$INPUT" | jq -r '(.tool_input.pattern // "") + " in " + (.tool_input.path // ".")' | head -c 500)
+    ;;
+  Glob)
+    DETAIL=$(printf '%s' "$INPUT" | jq -r '.tool_input.pattern // empty')
+    ;;
+  Skill)
+    DETAIL=$(printf '%s' "$INPUT" | jq -r '.tool_input.skill // empty')
+    ;;
+esac
+
+# Build log entry with jq for safe JSON encoding
+printf '%s' "$INPUT" | jq -c \
+  --arg type "tool_use" \
+  --arg sid "$SESSION_ID" \
+  --arg ts "$TIMESTAMP" \
+  --arg tool "$TOOL_NAME" \
+  --arg detail "$DETAIL" \
+  '{
+    type: $type,
+    session_id: $sid,
+    timestamp: $ts,
+    tool_name: $tool,
+    detail: (if $detail != "" then $detail else null end)
+  }' >> "$LOG_DIR/$TODAY.jsonl"
 
 exit 0
