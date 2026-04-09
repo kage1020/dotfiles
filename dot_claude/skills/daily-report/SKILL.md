@@ -54,7 +54,7 @@ description: >
 ### Phase 4: 日報生成
 
 収集した全情報を元に、以下のフォーマットで日報を生成する。
-生成した日報は `kage1020/daily-report-{DATE}.md` に保存する。
+生成した日報は `~/.claude/reports/daily-report-{DATE}.md` に保存する（ディレクトリがなければ作成する）。
 
 ## 日報フォーマット
 

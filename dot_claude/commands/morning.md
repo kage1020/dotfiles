@@ -4,16 +4,14 @@
 
 ### Phase 1: 日報の収集
 
-1. 直近 5 日分の日報ファイルを探索する:
+1. `~/.claude/reports/` から直近 5 日分の日報ファイルを探索する:
 
    ```bash
    for i in $(seq 1 5); do
      d=$(date -v-${i}d +%Y-%m-%d 2>/dev/null || date -d "-${i} days" +%Y-%m-%d)
-     find . -path "*/kage1020/daily-report-${d}.md" -print 2>/dev/null
+     [ -f "$HOME/.claude/reports/daily-report-${d}.md" ] && echo "$HOME/.claude/reports/daily-report-${d}.md"
    done
    ```
-
-   カレントディレクトリで見つからない場合は `~/projects/` 配下も検索する。
 
 2. 見つかった日報を新しい順に読み込む（最大 3 日分）。
 
