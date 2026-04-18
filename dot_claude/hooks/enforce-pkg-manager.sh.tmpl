@@ -10,7 +10,7 @@ fi
 if echo "$COMMAND" | grep -qE '^(npm|npx)\s'; then
   echo "npm/npx is not allowed. Use {{ .jsPkgManager }} instead." >&2
   echo "  npm install → {{ .jsPkgManager }}{{ if eq .jsPkgManager "pnpm" }} install{{ else if eq .jsPkgManager "bun" }} install{{ end }}" >&2
-  echo "  npx → {{ if eq .jsPkgManager "pnpm" }}pnpm dlx{{ else if eq .jsPkgManager "bun" }}bunx{{ end }}" >&2
+  echo "  npx → {{ if eq .jsPkgManager "pnpm" }}pnpm dlx or pnpm exec{{ else if eq .jsPkgManager "bun" }}bunx{{ end }}" >&2
   exit 2
 fi
 {{ end -}}
@@ -26,7 +26,7 @@ fi
 if echo "$COMMAND" | grep -qE '^(bun|bunx)\s'; then
   echo "bun/bunx is not allowed. Use {{ .jsPkgManager }} instead." >&2
   echo "  bun install → {{ .jsPkgManager }} install" >&2
-  echo "  bunx → {{ if eq .jsPkgManager "pnpm" }}pnpm dlx{{ else if eq .jsPkgManager "npm" }}npx{{ end }}" >&2
+  echo "  bunx → {{ if eq .jsPkgManager "pnpm" }}pnpm dlx or pnpm exec{{ else if eq .jsPkgManager "npm" }}npx{{ end }}" >&2
   exit 2
 fi
 {{ end -}}
