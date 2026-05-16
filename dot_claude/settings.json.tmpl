@@ -2,6 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(awk:*)",
+      "Bash(bun:*)",
+      "Bash(bunx:*)",
       "Bash(cat:*)",
       "Bash(echo:*)",
       "Bash(find:*)",
@@ -26,12 +28,11 @@
       "mcp__context7__query-docs"
     ],
     "deny": [
+      "Bash(git add -f:*)",
       {{ if ne .jsPkgManager "npm" }},
       "Bash(npm:*)",
       "Bash(npx:*)"{{ end }}{{ if ne .jsPkgManager "yarn" }},
-      "Bash(yarn:*)"{{ end }}{{ if ne .jsPkgManager "bun" }},
-      "Bash(bun:*)",
-      "Bash(bunx:*)"{{ end }}
+      "Bash(yarn:*)"{{ end }}
     ],
     "defaultMode": "plan"
   },
