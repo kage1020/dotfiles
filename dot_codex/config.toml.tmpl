@@ -35,6 +35,7 @@ instructions = """
 {{ if ne .jsPkgManager "bun" -}}
 - NEVER use bun/bunx. Use {{ .jsPkgManager }} instead.
 {{ end -}}
+- Do not leave Issue or PR numbers, or symbols and expressions used only within a specific session, in the codebase. Avoid using expressions that would require more references or further investigation when reading back through the code later.
 
 After implementation, run the linter and fix all issues until there are zero warnings/errors. Do not ignore any linter warnings/errors.
 Then, write an implementation report to `kage1020/report-YYYY-MM-DD-NN.md` with the following format:
