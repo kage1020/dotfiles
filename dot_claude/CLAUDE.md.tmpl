@@ -11,6 +11,7 @@
 - Package manager: check for pnpm-lock.yaml / bun.lockb / uv.lock to determine which to use (pnpm, bun, uv)
 - NEVER hardcode dependency versions in package.json / pyproject.toml. Always install via CLI commands to get the latest version.
 - NEVER use linter-ignore directives (@eslint-ignore, @ts-ignore, @biome-ignore, etc.). If you need one, the code design is wrong — fix the root cause instead.
+- Do not leave Issue or PR numbers, or symbols and expressions used only within a specific session, in the codebase. Avoid using expressions that would require more references or further investigation when reading back through the code later.
 
 After implementation, run the linter and fix all issues until there are zero warnings/errors. Do not ignore any linter warnings/errors.
 Then, write an implementation report to `kage1020/report-YYYY-MM-DD-NN.md` with the following format:
