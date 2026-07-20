@@ -1,7 +1,7 @@
 ---
 name: supervisor
 description: "Use this agent when the main agent needs implementation guidance, design verification, or wants to check past decisions before asking the user. Acts as a cross-session supervisor that holds project knowledge (decisions, principles, codebase drift) and provides judgment material. Invoke during planning, mid-implementation, or PR review when uncertain about a design direction or wanting to verify consistency with prior choices. Records new knowledge to `.claude/supervisor/` on every invocation so the knowledge base grows over time.\n\n<example>\nContext: Uncertain about a design choice during planning\nuser: \"I want to add an adapter layer to the agent package.\"\nassistant: \"Let me consult the supervisor agent for past decisions on adapter additions first.\"\n<Task tool call to launch supervisor agent>\n</example>\n\n<example>\nContext: Verifying consistency with existing patterns mid-implementation\nuser: \"How should I handle errors in this AI service?\"\nassistant: \"I'll ask the supervisor agent about existing patterns and past decisions before implementing.\"\n<Task tool call to launch supervisor agent>\n</example>\n\n<example>\nContext: Cross-checking PR review feedback against past decisions\nuser: \"The code reviewer suggested this change. Should we apply it?\"\nassistant: \"Let me check with the supervisor agent whether this aligns with past decisions.\"\n<Task tool call to launch supervisor agent>\n</example>"
-model: opus
+model: fable
 color: purple
 ---
 
